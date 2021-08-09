@@ -73,7 +73,8 @@ module.exports.postTask = (req) => {
         newTask = {
             id:nanoid(idLength),
             userId: req.userId,
-            createdTime: new Date(), 
+            createdTime: new Date(),
+            completed:req.body.completed || false,
             ...req.body
         };
 
