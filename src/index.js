@@ -8,6 +8,7 @@ const swaggerUI = require("swagger-ui-express");
 const docs = require('./docs');
 const taskRouter = require('./routes/tasks');
 const dashboardRouter = require('./routes/dashboard');
+const authdRouter = require('./routes/auth');
 
 const adapter = new FileSync(join(__dirname,'..','db.json'));
 const db = low(adapter);
@@ -23,6 +24,7 @@ app.use(morgan("dev"));
 app.use(cors());
 app.use('/tasks',taskRouter);
 app.use('/dashboard',dashboardRouter);
+app.use('/auth', authdRouter);
 app.use('/api-docs',swaggerUI.serve,swaggerUI.setup(docs));
 
 //initialize the app.

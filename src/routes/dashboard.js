@@ -2,19 +2,22 @@ const express = require("express");
 const dashboardRouter = express.Router();
 const httpHandler = require('../utils/httpHandler');
 const {status} = require('../utils/constants');
+const tokenService = require('../services/token.service');
+const db = require('../utils/db');
 
-dashboardRouter.get('/', (req,res) => {
-
-    let tasks = req.app.db.get('tasks').value();
-    
+dashboardRouter.get('/', tokenService, (req,res) => {
+    console.log('Inside getDashboard');
+    let tasks = db.getTasks(req);
     let totalTasks = 0 ;
     let completedTasks = 0 ;
     if( tasks ){
         for (const task of tasks) {
-            totalTasks++;
-            if(task.completed){
-                completedTasks++;
-            }
+            if(task){
+                totalTasks++;
+                if(task.completed){
+                    completedTasks++;
+                }
+            }    
         }
     }
 

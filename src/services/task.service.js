@@ -7,17 +7,22 @@ const {status} = require('../utils/constants');
 const idLength = 8;
 
 module.exports.getTasks = (req, sorted = false) => {
+    let searchParams = {
+        userId: req.userId
+    };
+    console.log(JSON.stringify(searchParams));
     let tasks = db.getTasks(req);
-    console.log('Total tasks --- '+ tasks.length);
-    if(tasks.length > 0){
+
+    if(tasks && tasks.length > 0){            
         tasks = date.sortArray(tasks, sorted);
+    }else{
+        tasks = [];
     }
 
-    result ={
+    let result ={
         "statusCode": status.success,
         "obj": tasks
     }
-
     return result;
 }
 
@@ -27,7 +32,8 @@ module.exports.getTask = (req) => {
     let result ={};
     let statusCode ;
     let searchParams = {
-        id: req.params.id
+        id: req.params.id,
+        userId: req.userId
     };
 
     let task = db.searchTask(req, searchParams);
@@ -54,23 +60,27 @@ module.exports.postTask = (req) => {
     let statusCode ;
     let searchParams = {
         title: req.body.title,
+        userId: req.userId,
         completed: false
     };
     let task =  db.searchTask(req, searchParams);
         
     console.log( 'task from DB :: '+ JSON.stringify(task) );
 
+    let newTask = null ;
+
     if(!task){
-        let task = {
+        newTask = {
             id:nanoid(idLength),
+            userId: req.userId,
             createdTime: new Date(), 
             ...req.body
         };
 
-        console.log( 'new task object :: '+ JSON.stringify(task) );
+        console.log( 'new task object :: '+ JSON.stringify(newTask) );
 
         try {
-            req.app.db.get("tasks").push(task).write();
+            req.app.db.get("tasks").push(newTask).write();
             statusCode = status.created;
         }catch(error){
             statusCode = status.serverError;
@@ -81,7 +91,7 @@ module.exports.postTask = (req) => {
 
     result ={
         "statusCode": statusCode,
-        "obj": null
+        "obj": newTask
     }
 
     return result ;
@@ -94,7 +104,8 @@ module.exports.putTask = (req) => {
     let result ={};
     let statusCode ;
     let searchParams = {
-        id: req.params.id
+        id: req.params.id,
+        userId: req.userId
     };
 
     let task =  db.searchTask(req, searchParams);
@@ -125,7 +136,6 @@ module.exports.putTask = (req) => {
             }
             db.updateTask(req, updateParams);
             statusCode = status.updated;
-
         } catch(error) {
                 statusCode = status.serverError;
         };
@@ -146,17 +156,15 @@ module.exports.deleteTask = (req) => {
     let result ={};
     let statusCode ;
     let searchParams = {
-        id: req.params.id
+        id: req.params.id,
+        userId: req.userId
     };
 
     let task =  db.searchTask(req, searchParams);
-
     if(!task){
         statusCode = status.notFound;
     };
-    
     console.log( `Inside deleteTask - for task id - ${req.params.id} - task from DB - ${JSON.stringify(task)}` );
-
    //update that task.
    if(task){
         try {
@@ -166,11 +174,9 @@ module.exports.deleteTask = (req) => {
             statusCode = status.serverError;
         }
     }
-
     result ={
         "statusCode": statusCode,
         "obj": null
     }
-
     return result ;
 }

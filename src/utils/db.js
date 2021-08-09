@@ -3,21 +3,28 @@ const {status} = require('../utils/constants');
 
 
 module.exports.getTasks = (req) => {
-    return req.app.db.get('tasks').value();
+
+    let tasks = req.app.db.get('tasks').value();
+    if(tasks && tasks.length > 0){
+        console.log('Total tasks --- '+ tasks.length);
+        tasks = tasks.filter( task => task &&
+            task.userId === req.userId)
+    }
+    return tasks;
 }
 
 
 module.exports.searchTask = (req, searchParams) => {
 
-    let task = req.app.db.get('tasks').find({ 
+    let tasks = req.app.db.get('tasks').find({ 
         ...searchParams
     }).value();
 
-    return task;
+    return tasks;
 }
 
 module.exports.updateTask = (req, updateParams) => {
-    console.log("DB : updatetask : "+ JSON.stringify(updateParams));
+    console.log("DB : updateTask : "+ JSON.stringify(updateParams));
     req.app.db.get("tasks").find({
         id:req.params.id
     })
