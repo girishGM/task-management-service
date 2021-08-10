@@ -1,0 +1,52 @@
+{
+  "name": "service-task",
+  "version": "1.0.0",
+  "description": "Task management service",
+  "scripts": {
+    "dev": "nodemon ./src/index.js",
+    "start": "node ./src/index.js"
+  },
+  "devDependencies": {
+    "eslint": "^7.3.1",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-jest": "^23.17.1",
+    "eslint-plugin-prettier": "^3.1.4",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.11",
+    "prettier": "^2.0.5"
+  },
+  "author": "BoltTech",
+  "license": "BoltTech",
+  "dependencies": {
+    "es6-promise": "^4.2.8",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "lowdb": "^1.0.0",
+    "morgan": "^1.10.0",
+    "nanoid": "^3.1.22",
+    "nodemon": "^2.0.7",
+    "swagger-ui-express": "^4.1.6",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.16.1",
+    "jsonwebtoken": "^7.4.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --write",
+      "eslint --fix"
+    ]
+  },
+  "nodemonConfig": {
+    "ext": "js",
+    "ignore": [
+      "*.test.ts",
+      "db/*"
+    ],
+    "delay": 2
+  }
+}
