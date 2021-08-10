@@ -29,7 +29,7 @@ npm run dev
 
 - Consume the API from [Postman]
 
-- In localhost -- http://localhost:400/[api end point]
+- In localhost -- http://localhost:4000/[api end point]
 
 
 ## APIs documentation
