@@ -15,6 +15,26 @@ var config = require('../config'); // get config file
 authRouter.post('/login', (req,res) => {
     console.log('Inside postTask');
     let statusCode = '';
+
+
+    if(req.body.userId && req.body.userName ){
+
+        if(req.body.userId.length > 10){
+            result ={
+                "statusCode": status.userIdLengthError,
+                "obj": null
+            }
+            return httpHandler.httpResponse(res, result);
+        }
+
+    }else{
+        result ={
+            "statusCode": status.badRequest,
+            "obj": null
+        }
+        return httpHandler.httpResponse(res, result);
+    }
+
     var token = jwt.sign({ userId: req.body.userId, userName: req.body.userName }, config.secret, {
         expiresIn: 86400 // expires in 24 hours
       });
@@ -25,15 +45,6 @@ authRouter.post('/login', (req,res) => {
     result ={
         "statusCode": statusCode,
         "obj": tokenObj
-    }
-    return httpHandler.httpResponse(res, result);
-});
-
-
-authRouter.get('/logout', function(req, res) {
-    result ={
-        "statusCode": status.success,
-        "obj": {token: null}
     }
     return httpHandler.httpResponse(res, result);
 });

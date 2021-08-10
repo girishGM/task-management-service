@@ -12,9 +12,14 @@ module.exports = {
             },
             timestamp: {
                 type: "Date", 
-                description: "creation date time of a task ( system generated )",
+                description: "Creation date time of a task ( system generated )",
                 example: "2021-08-07T1:02:52+08:00",
             },
+            userId: {
+              type: "string", 
+              description: "logged in user's id to manage the tasks", 
+              example: "105678", 
+          },
             title: {
                 type: "string", 
                 description: "Task's title",
@@ -68,22 +73,23 @@ module.exports = {
             },
         },
 
-        // Error object
-        Error: {
+        // Common response object
+        CommonResponse: {
             type: "object", 
             properties: {
-              message: {
-                type: "string", 
-                description: "Error message", 
-                example: "Not found", 
-              },
-              internal_code: {
-                type: "string", 
-                description: "Error internal code", 
-                example: "Invalid parameters", 
-              },
+                result: {
+                    type: "object", 
+                    description: "This will have the fileds as per the called api", 
+                    example: "one task details or arrry of all user's task...",
+                },
+                _status: {
+                    type: "object", 
+                    description: "This will show the api specific response code and message", 
+                    example: "{ code: 8001, message: 'Task added successfully}",
+                },
             },
-          },
+        },
+
         },
       },
     };

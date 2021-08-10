@@ -1,19 +1,42 @@
-### task-management-service
 
+# Task management services
 
-- Ensure you have [Node.js] installed on your computer.
+Back-end services ( REST APIs) to manage the daily tasks.
 
-- Install the dependencies by running the following from the root of the project:
+## Get Started
+
+To start get the code from the git hub repo then follow the below steps:
+
+## Installation
+
+Ensure you have [Node.js] installed on your computer.
+
+Install the dependencies by running the following from the root of the project:
+
+### npm
 
 ```bash
-npm install
+npm install 
 ```
 
-- Run the application by running command
-npm run dev
+## To start the application 
 
-- Server will start on 4000 port
+### npm
+
+```bash
+npm run dev 
+```
 
 - Consume the API from [Postman]
 
 - In localhost -- http://localhost:400/[api end point]
+
+
+## APIs documentation
+
+-- https://task-management-service.herokuapp.com/api-docs/
+
+
+
+
+
