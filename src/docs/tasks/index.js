@@ -4,6 +4,7 @@ const getTask = require('./get-task');
 const postTask = require('./post-task');
 const putTask = require('./put-task');
 const deleteTask = require('./delete-task');
+const login = require('./login');
 
 
 module.exports = {
@@ -19,6 +20,9 @@ module.exports = {
         },
         '/dashboard':{
             ...getDashboard
+        },
+        '/auth/login':{
+            ...login
         }
     }
 }
